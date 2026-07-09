@@ -7,8 +7,8 @@ import { WaveDivider, WAVE } from "../ui/WaveDivider";
 import { contact } from "@/lib/content";
 
 const info = [
-  { Icon: Mail, label: "Email", value: contact.email },
-  { Icon: Phone, label: "Teléfono", value: contact.phone },
+  { Icon: Mail, label: "Email", value: contact.email, href: `mailto:${contact.email}` },
+  { Icon: Phone, label: "Teléfono", value: contact.phone, href: `tel:${contact.phone}` },
   { Icon: MapPin, label: "Ubicación", value: contact.location },
 ];
 
@@ -80,16 +80,23 @@ export function Contact() {
             propuesta clara, sin compromiso.
           </p>
           <div className="flex flex-col gap-4.5">
-            {info.map(({ Icon, label, value }) => (
+            {info.map(({ Icon, label, value, href }) => (
               <div key={label} className="flex items-center gap-3.5">
                 <span className="bg-brand-gradient flex size-11 flex-none items-center justify-center rounded-xl">
                   <Icon className="size-5 text-white" strokeWidth={1.9} />
                 </span>
                 <div>
                   <p className="text-[12.5px] text-faint">{label}</p>
-                  <p className="text-[15.5px] font-semibold text-white">
-                    {value}
-                  </p>
+                  {href ? (
+                    <a
+                      href={href}
+                      className="text-[15.5px] font-semibold text-white transition-colors hover:text-accent-light"
+                    >
+                      {value}
+                    </a>
+                  ) : (
+                    <p className="text-[15.5px] font-semibold text-white">{value}</p>
+                  )}
                 </div>
               </div>
             ))}

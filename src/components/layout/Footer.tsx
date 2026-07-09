@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { Mail } from "lucide-react";
-import { footerColumns } from "@/lib/content";
+import { contact, footerColumns } from "@/lib/content";
 import { LinkedinIcon, GithubIcon } from "../icons/BrandIcons";
 import { Container } from "../ui/Container";
 
 const socials = [
   { href: "#", label: "LinkedIn", Icon: LinkedinIcon },
   { href: "#", label: "GitHub", Icon: GithubIcon },
-  { href: "mailto:hola@insait.com", label: "Email", Icon: Mail },
+  { href: `mailto:${contact.email}`, label: "Email", Icon: Mail },
 ];
 
 export function Footer() {
