@@ -1,26 +1,176 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* In-sait design tokens — source of truth: Diseño Final mockup */
+@theme {
+  --color-surface: #ffffff;
+  --color-surface-soft: #fbfbfd;
+
+  --color-ink: #2b2d33; /* anthracite / primary text */
+  --color-ink-soft: #454952;
+  --color-ink-900: #232429; /* darkest surface (footer) */
+  --color-ink-800: #33353d;
+
+  --color-muted: #6b6e78;
+  --color-faint: #9a9ca4;
+  --color-hairline: #e8e9ec;
+
+  --color-accent: #db6e9c; /* pink */
+  --color-accent-light: #f98aca;
+  --color-accent-dark: #b6547c;
+
+  --color-teal: #2abc9c; /* positive / support */
+  --color-teal-dark: #1e6b7a;
+
+  --font-sans:
+    var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --ease-brand: cubic-bezier(0.16, 0.84, 0.44, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 92px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(249, 138, 202, 0.28);
+}
+
+/* Brand gradient helper (CTAs, active states) */
+.bg-brand-gradient {
+  background-image: linear-gradient(135deg, #f98aca, #db6e9c);
+}
+.text-brand-gradient {
+  background-image: linear-gradient(120deg, #f98aca, #db6e9c 60%, #b6547c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Hero ambient animation — CSS only, respects reduced motion */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+@keyframes spinSlow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinRev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-floaty {
+  animation: floaty 7s ease-in-out infinite;
+}
+.animate-pulse-glow {
+  animation: pulseGlow 6s ease-in-out infinite;
+}
+.animate-spin-slow {
+  animation: spinSlow 46s linear infinite;
+}
+.animate-spin-rev {
+  animation: spinRev 34s linear infinite;
+}
+
+/* Hero decorativo (gradientes/máscaras complejas → clase en vez de inline) */
+.hero-dots {
+  background-image: radial-gradient(rgba(43, 45, 51, 0.045) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 60% at 50% 30%,
+    #000,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 60% at 50% 30%,
+    #000,
+    transparent 75%
+  );
+}
+.hero-glow {
+  background: radial-gradient(
+    circle,
+    rgba(249, 138, 202, 0.3),
+    rgba(249, 138, 202, 0.06) 45%,
+    transparent 70%
+  );
+  filter: blur(6px);
+}
+
+/* Timeline del proceso: vertical con línea en mobile, horizontal en desktop.
+   La línea es un background-gradient que se auto-ajusta al alto del texto. */
+.proc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.proc-step {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  column-gap: 18px;
+  padding-bottom: 30px;
+  text-align: left;
+  background: linear-gradient(var(--color-hairline), var(--color-hairline)) 26px
+    0 / 2px 100% no-repeat;
+}
+.proc-step:last-child {
+  background: none;
+  padding-bottom: 0;
+}
+.proc-badge {
+  grid-row: span 2;
+}
+@media (min-width: 1024px) {
+  .proc-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+  }
+  .proc-step {
+    display: block;
+    padding-bottom: 0;
+    text-align: center;
+    background: none;
+  }
+  .proc-badge {
+    margin: 0 auto 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-floaty,
+  .animate-pulse-glow,
+  .animate-spin-slow,
+  .animate-spin-rev {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }
