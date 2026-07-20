@@ -3,6 +3,7 @@ import { Container } from "../ui/Container";
 import { Button } from "../ui/Button";
 import { Reveal } from "../ui/Reveal";
 import { WaveDivider, WAVE } from "../ui/WaveDivider";
+import { ScheduleButton } from "./ScheduleModal";
 
 const tags = [
   "Business Intelligence",
@@ -50,9 +51,7 @@ export function Hero() {
           </Reveal>
           <Reveal delay={220}>
             <div className="flex flex-wrap gap-3.5">
-              <Button href="#contacto" withArrow>
-                Agendar una reunión
-              </Button>
+              <ScheduleButton>Agendar una reunión</ScheduleButton>
               <Button href="#servicios" variant="secondary">
                 Ver servicios
               </Button>

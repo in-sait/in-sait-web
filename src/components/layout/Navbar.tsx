@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import { navLinks } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import { Container } from "../ui/Container";
-import { Button } from "../ui/Button";
+import { ScheduleButton } from "../sections/ScheduleModal";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -55,9 +55,7 @@ export function Navbar() {
         </div>
 
         <div className="hidden lg:block">
-          <Button href="#contacto" size="sm">
-            Agendar reunión
-          </Button>
+          <ScheduleButton size="sm">Agendar reunión</ScheduleButton>
         </div>
 
         <button
@@ -83,13 +81,9 @@ export function Navbar() {
               {l.label}
             </a>
           ))}
-          <a
-            href="#contacto"
-            onClick={() => setOpen(false)}
-            className="bg-brand-gradient mt-2.5 rounded-xl px-4 py-3.5 text-center font-semibold text-white"
-          >
-            Agendar reunión
-          </a>
+          <div className="mt-2.5" onClick={() => setOpen(false)}>
+            <ScheduleButton className="w-full">Agendar reunión</ScheduleButton>
+          </div>
         </div>
       )}
     </nav>
