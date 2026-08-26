@@ -8,7 +8,7 @@ import { contact } from "@/lib/content";
 
 const info = [
   { Icon: Mail, label: "Email", value: contact.email, href: `mailto:${contact.email}` },
-  { Icon: Phone, label: "Teléfono", value: contact.phone, href: `tel:${contact.phone}` },
+  { Icon: Phone, label: "Teléfono", value: contact.phone, href: `tel:${contact.phone.replace(/ /g, "")}` },
   { Icon: MapPin, label: "Ubicación", value: contact.location },
 ];
 
