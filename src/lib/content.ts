@@ -177,7 +177,7 @@ export const faqs: Faq[] = [
 export const contact = {
   email: "contacto@insait.com.ar",
   phone: "+54 9 11 2593 1939",
-  location: "Gualeguaychu, Argentina",
+  location: "Argentina",
 };
 
 export const footerColumns = [
