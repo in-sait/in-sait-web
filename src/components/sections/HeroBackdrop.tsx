@@ -18,7 +18,12 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
  * fuente de verdad del dibujo.
  *
  * ── Las tres perillas, para ajustar a ojo ──────────────────────────────────
- *   arcos:  opacity-[0.09] / md:opacity-[0.17]   ← más alto = menos apagado
+ *   arcos:  md:opacity-[0.5] — valor cerrado por Rodrigo.
+ *           En mobile queda en 0.1 y NO es un olvido: ahí la marca pasa por
+ *           detrás del titular y del párrafo. Con los arcos al 50%, el gris
+ *           del párrafo (#6b6e78) sobre el arco da 2.26:1 de contraste y no
+ *           se lee. A 0.1 da 4.6:1 y cumple AA. Para subirlo en mobile hay
+ *           que sacar la marca de atrás del texto, no subir la opacidad.
  *   núcleo: bg-accent/18   / md:bg-accent/45
  *   anillo: border-accent/12 / md:border-accent/30
  *   velocidad de giro: .animate-spin-slow en globals.css (hoy 60s)
@@ -70,7 +75,7 @@ export function HeroBackdrop() {
             priority
             unoptimized
             style={{ transformOrigin: `${CORE_X}% ${CORE_Y}%` }}
-            className="animate-spin-slow absolute inset-0 h-full w-full opacity-[0.09] md:opacity-[0.17]"
+            className="animate-spin-slow absolute inset-0 h-full w-full opacity-[0.1] md:opacity-[0.5]"
           />
         </motion.div>
 
