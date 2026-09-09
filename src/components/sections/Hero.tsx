@@ -7,9 +7,9 @@ import { ScheduleButton } from "./ScheduleModal";
 
 const tags = [
   "Business Intelligence",
-  "Data Engineering",
+  "Integración de sistemas",
   "Automatización",
-  "Software a medida",
+  "IA aplicada",
 ];
 
 export function Hero() {
@@ -36,24 +36,23 @@ export function Hero() {
             </div>
           </Reveal>
           <Reveal delay={60}>
-            <h1 className="mb-5.5 text-[clamp(38px,5.4vw,64px)] font-bold leading-[1.04] tracking-[-0.03em] text-ink">
-              Transformamos datos en{" "}
-              <span className="text-brand-gradient">decisiones inteligentes</span>
-              .
+            <h1 className="mb-5.5 text-balance text-[clamp(38px,5.4vw,64px)] font-bold leading-[1.04] tracking-[-0.03em] text-ink">
+              Sabé dónde ganás, dónde perdés{" "}
+              <span className="text-brand-gradient">y por qué</span>.
             </h1>
           </Reveal>
           <Reveal delay={140}>
             <p className="mb-9 max-w-[520px] text-[clamp(16px,1.4vw,19px)] leading-[1.62] text-muted">
-              Consultora de datos, analítica e ingeniería de software.
-              Convertimos información dispersa en indicadores confiables y
-              automatizamos los procesos que hoy te consumen horas.
+              Conectamos los sistemas de tu empresa en un solo tablero y
+              automatizamos los reportes que hoy se arman a mano. Ves el negocio
+              completo, al día, sin discutir qué número es el correcto.
             </p>
           </Reveal>
           <Reveal delay={220}>
             <div className="flex flex-wrap gap-3.5">
-              <ScheduleButton>Agendar una reunión</ScheduleButton>
-              <Button href="#servicios" variant="secondary">
-                Ver servicios
+              <ScheduleButton>Pedir un diagnóstico</ScheduleButton>
+              <Button href="#dashboard" variant="secondary">
+                Ver un tablero
               </Button>
             </div>
           </Reveal>

@@ -3,11 +3,11 @@ import {
   Database,
   ShieldCheck,
   Workflow,
-  Code2,
+  Sparkles,
   Target,
   Building2,
   Check,
-  MessageSquare,
+  Route,
   type LucideIcon,
 } from "lucide-react";
 
@@ -33,28 +33,28 @@ export type Service = { title: string; desc: string; icon: LucideIcon };
 export const services: Service[] = [
   {
     title: "Business Intelligence",
-    desc: "Dashboards y reportes confiables que todos entienden. Una sola fuente de verdad para tu operación.",
+    desc: "Todo tu negocio en un tablero que se entiende sin que nadie lo explique. Ventas, costos y operación al día, en la misma pantalla.",
     icon: BarChart3,
   },
   {
-    title: "Data Analytics & Engineering",
-    desc: "Integramos tus sistemas, limpiamos y modelamos los datos para que dejen de vivir en planillas sueltas.",
+    title: "Integración de sistemas y datos",
+    desc: "Conectamos los sistemas que hoy no se hablan. Se termina el cruce manual de planillas y cada dato aparece una sola vez, bien.",
     icon: Database,
   },
   {
-    title: "Calidad y Gobierno de Datos",
-    desc: "Definimos qué dato es el correcto y por qué. Trazabilidad, reglas y confianza en cada indicador.",
+    title: "Calidad y gobierno de datos",
+    desc: "Un solo número por indicador, con dueño y con origen. Se termina la reunión donde cada área trae su propia versión.",
     icon: ShieldCheck,
   },
   {
     title: "Automatización de procesos",
-    desc: "Eliminamos tareas manuales repetitivas con flujos automáticos y confiables. Menos Excel, más tiempo.",
+    desc: "Lo que hoy alguien arma a mano todos los meses deja de armarse. Recuperás horas de gente cara para trabajo que sí rinde.",
     icon: Workflow,
   },
   {
-    title: "Desarrollo de software",
-    desc: "Aplicaciones internas y soluciones cloud construidas para durar, mantenerse y escalar con tu operación.",
-    icon: Code2,
+    title: "Inteligencia artificial aplicada",
+    desc: "IA donde da resultado: clasificar documentos, responder consultas sobre tus propios datos, anticipar demanda. No donde queda bien en una presentación.",
+    icon: Sparkles,
   },
 ];
 
@@ -62,24 +62,24 @@ export type Value = { title: string; desc: string; icon: LucideIcon };
 
 export const values: Value[] = [
   {
-    title: "La ingeniería primero",
-    desc: "Las decisiones técnicas están fundamentadas. La calidad del software importa tanto como el resultado visual.",
+    title: "Un solo número",
+    desc: "Cada indicador tiene una definición, un dueño y un origen. Si dos áreas informan distinto, ese es el primer problema que resolvemos.",
     icon: Target,
   },
   {
     title: "El negocio primero",
-    desc: "Toda solución responde a una necesidad concreta. Nunca desarrollamos tecnología por moda.",
+    desc: "Ningún proyecto arranca por la herramienta. Arranca por la decisión que hoy se toma tarde o a ciegas.",
     icon: Building2,
   },
   {
-    title: "Simplicidad",
-    desc: "Si algo puede resolverse de forma simple, esa será siempre la opción preferida. La complejidad se justifica.",
+    title: "Simplicidad deliberada",
+    desc: "Si se resuelve simple, se resuelve simple. No te vendemos complejidad que después tenés que mantener.",
     icon: Check,
   },
   {
-    title: "Transparencia",
-    desc: "Explicamos nuestras decisiones y documentamos el trabajo. Hablamos claro, sin lenguaje innecesario.",
-    icon: MessageSquare,
+    title: "Trazabilidad",
+    desc: "Todo número se puede seguir hasta su origen. Si alguien pregunta de dónde sale, hay respuesta.",
+    icon: Route,
   },
 ];
 
@@ -194,9 +194,9 @@ export const footerColumns = [
     title: "SERVICIOS",
     links: [
       { href: "#servicios", label: "Business Intelligence" },
-      { href: "#servicios", label: "Data Analytics" },
+      { href: "#servicios", label: "Integración de sistemas" },
       { href: "#servicios", label: "Automatización" },
-      { href: "#servicios", label: "Desarrollo de software" },
+      { href: "#servicios", label: "IA aplicada" },
     ],
   },
 ];

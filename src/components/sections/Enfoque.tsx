@@ -14,14 +14,22 @@ export function Enfoque() {
       <Container className="grid items-start gap-14 lg:grid-cols-[0.9fr_1.1fr]">
         <Reveal className="lg:sticky lg:top-[110px]">
           <p className="mb-3.5 text-[13px] font-semibold tracking-[0.15em] text-accent">
-            NUESTRO ENFOQUE
+            NUESTRO FOCO
           </p>
           <h2 className="mb-5 text-[clamp(30px,3.6vw,44px)] font-bold leading-[1.08] tracking-[-0.025em] text-ink">
-            Un socio tecnológico, no un proveedor más
+            Nos especializamos en una sola cosa:{" "}
+            <span className="text-accent">
+              que sepas lo que está pasando en tu empresa.
+            </span>
           </h2>
+          <p className="mb-4.5 text-[17px] leading-[1.65] text-muted">
+            No hacemos de todo. Hacemos que tus datos te den control: dónde se
+            gana, dónde se pierde, qué proceso te está costando horas y cuál
+            indicador te está mintiendo.
+          </p>
           <p className="mb-6.5 text-[17px] leading-[1.65] text-muted">
-            Buscamos relaciones de largo plazo. Cada proyecto debe dejar al
-            cliente en una mejor situación que cuando empezó.
+            Cuando el proyecto necesita además una solución tecnológica, la
+            resuelve Zulpik, nuestro socio.
           </p>
           <div className="rounded-2xl border border-l-[3px] border-ink/9 border-l-accent-light bg-surface px-5.5 py-5">
             <p className="text-[17px] font-semibold leading-[1.5] text-ink">

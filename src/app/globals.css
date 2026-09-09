@@ -174,3 +174,173 @@ body {
     scroll-behavior: auto;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Badge de alianza con Zulpik.
+   CSS provisto por Zulpik — se mantiene VERBATIM para poder reemplazarlo si
+   mandan otra versión. La fuente se carga con el <link> de ellos, en
+   layout.tsx. Dos desvíos, ambos marcados con "in-sait:":
+     1. el bloque prefers-reduced-motion original decía .zk-badge_mark /
+        .zk-badge_word (un guion bajo en vez de dos) y por eso no apagaba
+        nada. Corregido a __.
+     2. media query propia para que en pantallas chicas el kicker se apile
+        sobre el lockup en vez de desbordar. El lockup (marca + palabra) no
+        se toca.
+   ───────────────────────────────────────────────────────────────────────── */
+.zk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  background: #ffffff;
+  border: 1px solid #e3e1dc;
+  border-radius: 10px;
+  padding: 18px 28px;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  text-decoration: none;
+}
+.zk-badge__kicker {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #8a8983;
+  white-space: nowrap;
+}
+.zk-badge__rule {
+  width: 1px;
+  height: 34px;
+  background: #e3e1dc;
+}
+.zk-badge__lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.zk-badge__mark {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  flex: none;
+}
+.zk-badge__mark i {
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  border-radius: 3px;
+  transform: rotate(45deg);
+}
+.zk-badge__mark i:nth-child(1) {
+  top: 0;
+  left: 0;
+  background: #1d1d1b;
+  animation:
+    zk-swap-a 5s cubic-bezier(0.6, 0, 0.2, 1) infinite,
+    zk-swap-z 5s step-end infinite;
+}
+.zk-badge__mark i:nth-child(2) {
+  bottom: 0;
+  right: 0;
+  background: #2fb6a3;
+  animation: zk-swap-b 5s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+}
+.zk-badge__word {
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  color: #1d1d1b;
+  line-height: 1;
+  animation: zk-swap-word 5s cubic-bezier(0.6, 0, 0.2, 1) infinite;
+}
+@keyframes zk-swap-a {
+  0%,
+  16% {
+    transform: translate(0, 0) rotate(45deg);
+  }
+  46%,
+  62% {
+    transform: translate(13px, 13px) rotate(45deg);
+  }
+  92%,
+  100% {
+    transform: translate(0, 0) rotate(45deg);
+  }
+}
+@keyframes zk-swap-b {
+  0%,
+  16% {
+    transform: translate(0, 0) rotate(45deg);
+  }
+  46%,
+  62% {
+    transform: translate(-13px, -13px) rotate(45deg);
+  }
+  92%,
+  100% {
+    transform: translate(0, 0) rotate(45deg);
+  }
+}
+@keyframes zk-swap-z {
+  0%,
+  44% {
+    z-index: 2;
+  }
+  45%,
+  100% {
+    z-index: 1;
+  }
+}
+@keyframes zk-swap-word {
+  0%,
+  20% {
+    transform: translateY(0);
+  }
+  46%,
+  60% {
+    transform: translateY(-2px);
+  }
+  88%,
+  100% {
+    transform: translateY(0);
+  }
+}
+/* in-sait: variante oscura para el footer. Los colores NO son inventados:
+   salen de "Zulpik guía de marca v1 (2026)". Así muestran ellos el lockup
+   horizontal sobre fondo oscuro — Ink de fondo, Papel en la palabra y en el
+   rombo que sobre blanco es negro, Plata en el texto chico, y el Acento se
+   mantiene igual. La guía tiene además un "negativo monocromo" (fondo Carbón
+   #2F2F2F, todo Papel, sin acento) para cuando no se puede usar color. */
+.zk-badge--dark {
+  background: #1d1d1b;
+  border-color: #2f2f2f;
+}
+.zk-badge--dark .zk-badge__kicker {
+  color: #bababa;
+}
+.zk-badge--dark .zk-badge__rule {
+  background: #2f2f2f;
+}
+.zk-badge--dark .zk-badge__word {
+  color: #f6f5f3;
+}
+.zk-badge--dark .zk-badge__mark i:nth-child(1) {
+  background: #f6f5f3;
+}
+
+/* in-sait: mobile — kicker arriba, lockup abajo, sin la línea divisoria.
+   En fila el badge mide 327px y el container deja vw-48, o sea que se queda
+   sin lugar por debajo de 375px de ancho. Cortamos en 400 para dejar aire. */
+@media (max-width: 400px) {
+  .zk-badge {
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 22px;
+  }
+  .zk-badge__rule {
+    display: none;
+  }
+}
+/* in-sait: corregido _ → __ (el original no apagaba las animaciones) */
+@media (prefers-reduced-motion: reduce) {
+  .zk-badge__mark i,
+  .zk-badge__word {
+    animation: none !important;
+  }
+}

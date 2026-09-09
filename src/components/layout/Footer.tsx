@@ -3,6 +3,7 @@ import { Mail } from "lucide-react";
 import { contact, footerColumns } from "@/lib/content";
 import { LinkedinIcon, GithubIcon } from "../icons/BrandIcons";
 import { Container } from "../ui/Container";
+import { PartnerBadge } from "../ui/PartnerBadge";
 
 const socials = [
   { href: "#", label: "LinkedIn", Icon: LinkedinIcon },
@@ -28,7 +29,7 @@ export function Footer() {
               <span className="text-xl font-bold tracking-tight">In-sait</span>
             </a>
             <p className="mb-5 max-w-[300px] text-[14.5px] leading-relaxed text-faint">
-              Consultora de datos, analítica e ingeniería de software.
+              Consultoría en datos, analítica y automatización de procesos.
               Convertimos información en decisiones confiables.
             </p>
             <div className="flex gap-2.5">
@@ -42,6 +43,9 @@ export function Footer() {
                   <Icon className="size-[18px]" />
                 </a>
               ))}
+            </div>
+            <div className="mt-6">
+              <PartnerBadge variant="dark" />
             </div>
           </div>
 
