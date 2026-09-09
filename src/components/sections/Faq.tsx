@@ -10,13 +10,16 @@ export function Faq() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section id="faq" className="relative bg-surface-soft py-[clamp(84px,10vw,128px)]">
+    <section
+      id="faq"
+      className="relative border-b border-hairline bg-surface-soft py-[clamp(84px,10vw,128px)]"
+    >
       <Container className="max-w-[820px]">
         <div className="mb-12 text-center">
-          <p className="mb-3.5 text-[13px] font-semibold tracking-[0.15em] text-accent">
+          <p className="mb-3.5 text-[12.5px] font-semibold tracking-[0.16em] text-muted">
             PREGUNTAS FRECUENTES
           </p>
-          <h2 className="text-[clamp(30px,4vw,44px)] font-bold leading-[1.08] tracking-[-0.025em] text-ink">
+          <h2 className="text-[clamp(30px,4vw,44px)] font-semibold leading-[1.08] tracking-[-0.025em] text-ink">
             Todo lo que querés saber
           </h2>
         </div>
@@ -28,27 +31,33 @@ export function Faq() {
               <div
                 key={f.q}
                 className={cn(
-                  "overflow-hidden rounded-2xl border bg-surface",
-                  isOpen ? "border-accent-light/45" : "border-ink/9",
+                  "overflow-hidden rounded-card border bg-surface transition-shadow",
+                  // el único rosa de la sección: la respuesta que se está leyendo
+                  isOpen ? "border-accent/55 shadow-raise" : "border-hairline",
                 )}
               >
                 <button
                   type="button"
                   onClick={() => setOpen(isOpen ? -1 : i)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5.5 text-left text-[17px] font-semibold text-ink"
+                  aria-controls={`faq-panel-${i}`}
+                  id={`faq-trigger-${i}`}
+                  className="flex w-full items-center justify-between gap-4 px-6 py-5.5 text-left text-[17px] font-semibold text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-dark"
                 >
                   {f.q}
                   <ChevronDown
                     className={cn(
-                      "size-5 flex-none text-accent transition-transform duration-300",
-                      isOpen && "rotate-180",
+                      "size-5 flex-none transition-transform duration-300",
+                      isOpen ? "rotate-180 text-accent-dark" : "text-muted",
                     )}
                   />
                 </button>
                 <div
+                  id={`faq-panel-${i}`}
+                  role="region"
+                  aria-labelledby={`faq-trigger-${i}`}
                   className={cn(
-                    "grid transition-all duration-300 ease-[cubic-bezier(0.16,0.84,0.44,1)]",
+                    "grid transition-all duration-300 ease-brand",
                     isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
                   )}
                 >

@@ -7,16 +7,33 @@ import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
 import { CountUp } from "../ui/CountUp";
-import { WaveDivider, WAVE } from "../ui/WaveDivider";
 import { cn } from "@/lib/cn";
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Reglas de dataviz del brief (§02, "Sobre gráficos reales"), aplicadas acá:
+     · una sola serie destacada en rosa, el resto en gris
+     · sin leyenda flotante si se puede etiquetar la serie directamente
+     · sin grilla completa: sólo eje base
+     · sin efectos (se fue el relleno de área con degradado)
+     · torta y barra 3D prohibidas incluso cuando el dato lo pida — se
+       reemplazan por barra horizontal simple o por la cifra sola
+   El donut de "Distribución por canal" era una torta: está reemplazado por
+   barras horizontales.
+   ─────────────────────────────────────────────────────────────────────────── */
 
 type Tab = "resumen" | "ventas" | "calidad";
 
 const kpis = [
-  { label: "Ingresos", value: 12540, delta: "▲ 12,5%", up: true },
-  { label: "Operaciones", value: 8320, delta: "▲ 8,1%", up: true },
-  { label: "Pendientes", value: 4210, delta: "▼ 3,4%", up: false },
-  { label: "Nuevos clientes", value: 2890, delta: "▲ 5,7%", up: true },
+  { label: "Ingresos", value: 12540, delta: "▲ 12,5%" },
+  { label: "Operaciones", value: 8320, delta: "▲ 8,1%" },
+  { label: "Pendientes", value: 4210, delta: "▼ 3,4%" },
+  { label: "Nuevos clientes", value: 2890, delta: "▲ 5,7%" },
+];
+
+const channels = [
+  { name: "Directo", pct: 45 },
+  { name: "Partners", pct: 30 },
+  { name: "Digital", pct: 25 },
 ];
 
 const regions = [
@@ -39,9 +56,15 @@ export function DashboardShowcase() {
   const [tab, setTab] = useState<Tab>("resumen");
 
   return (
-    <section id="dashboard" className="relative overflow-hidden py-[clamp(84px,10vw,128px)]">
-      <WaveDivider d={WAVE.a} fill="#fbfbfd" />
-      <Container>
+    <section
+      id="dashboard"
+      className="relative overflow-hidden border-b border-hairline py-[clamp(84px,10vw,128px)]"
+    >
+      <div
+        aria-hidden
+        className="brand-grid brand-grid--band pointer-events-none absolute inset-0"
+      />
+      <Container className="relative">
         <SectionHeading
           eyebrow="NUESTRO TRABAJO"
           title="Insights que generan impacto"
@@ -49,52 +72,51 @@ export function DashboardShowcase() {
           className="mb-13 max-w-[660px]"
         />
 
-        <Reveal className="grid grid-cols-1 overflow-hidden rounded-3xl border border-ink/10 bg-surface shadow-[0_40px_90px_rgba(43,45,51,0.14)] lg:grid-cols-[78px_1fr]">
+        <Reveal className="grid grid-cols-1 overflow-hidden rounded-panel border border-hairline bg-surface shadow-panel lg:grid-cols-[78px_1fr]">
           {/* sidebar */}
-          <div className="flex flex-row items-center justify-center gap-3 bg-ink px-4 py-3 lg:flex-col lg:gap-2 lg:px-0 lg:py-5.5">
+          <div className="flex flex-row items-center justify-center gap-3 bg-ink px-4 py-3 lg:flex-col lg:gap-2 lg:px-0 lg:py-6">
             <Image
               src="/assets/brand/insait-mark.svg"
               alt=""
               width={32}
               height={32}
               unoptimized
-              className="size-8 opacity-90 [filter:brightness(0)_invert(1)] lg:mb-4.5"
+              className="size-8 opacity-90 [filter:brightness(0)_invert(1)] lg:mb-4"
             />
             {sidebarIcons.map((Icon, i) => (
               <span
                 key={i}
                 className={cn(
-                  "flex size-9.5 items-center justify-center rounded-xl lg:size-11",
-                  i === 1
-                    ? "bg-brand-gradient text-white shadow-[0_6px_16px_rgba(219,110,156,0.4)]"
-                    : "text-[#9a9ca4]",
+                  "flex size-9 items-center justify-center rounded-control lg:size-11",
+                  i === 1 ? "bg-white/12 text-white" : "text-white/40",
                 )}
               >
-                <Icon className="size-5" strokeWidth={1.8} />
+                <Icon className="size-5" strokeWidth={1.7} />
               </span>
             ))}
           </div>
 
           {/* main */}
-          <div className="bg-[#fcfcfd] p-6.5 lg:px-7.5 lg:pb-8 lg:pt-6.5">
-            <div className="mb-5.5 flex flex-wrap items-center justify-between gap-3.5">
+          <div className="bg-surface-soft p-6 lg:px-7 lg:pb-8 lg:pt-6">
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3.5">
               <div>
-                <p className="mb-1 text-[12px] font-semibold tracking-[0.1em] text-faint">
+                <p className="mb-1 text-[11.5px] font-semibold tracking-[0.12em] text-muted">
                   PANEL EJECUTIVO
                 </p>
-                <h3 className="text-[20px] font-bold tracking-[-0.01em] text-ink">
+                <h3 className="text-[20px] font-semibold tracking-[-0.01em] text-ink">
                   Rendimiento comercial
                 </h3>
               </div>
-              <div className="inline-flex gap-1 rounded-xl bg-[#eceef1] p-1.5">
+              <div className="inline-flex gap-1 rounded-control bg-hairline p-1">
                 {(["resumen", "ventas", "calidad"] as Tab[]).map((t) => (
                   <button
                     key={t}
                     type="button"
                     onClick={() => setTab(t)}
+                    aria-pressed={tab === t}
                     className={cn(
-                      "rounded-[9px] px-4 py-2 text-[13.5px] font-semibold capitalize transition-colors",
-                      tab === t ? "bg-ink text-white" : "text-[#7d7f8a]",
+                      "rounded-[7px] px-4 py-2 text-[13.5px] font-medium capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-1",
+                      tab === t ? "bg-ink text-white" : "text-muted hover:text-ink",
                     )}
                   >
                     {t}
@@ -103,25 +125,22 @@ export function DashboardShowcase() {
               </div>
             </div>
 
-            {/* KPIs */}
-            <div className="mb-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+            {/* KPIs — cifras en tinta, tabular-nums para que no bailen al contar.
+                Los deltas van en gris: la flecha ya comunica la dirección, y el
+                rosa está reservado para la conclusión del panel. */}
+            <div className="mb-3.5 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
               {kpis.map((k) => (
                 <div
                   key={k.label}
-                  className="rounded-[14px] border border-ink/8 bg-surface px-4.5 py-4"
+                  className="rounded-card border border-hairline bg-surface px-4.5 py-4"
                 >
-                  <p className="mb-1.5 text-[12.5px] font-medium text-faint">
+                  <p className="mb-1.5 text-[12.5px] font-medium text-muted">
                     {k.label}
                   </p>
-                  <p className="mb-1 text-[26px] font-bold tracking-[-0.02em] text-ink">
+                  <p className="mb-1 text-[26px] font-semibold tabular-nums tracking-[-0.02em] text-ink">
                     <CountUp value={k.value} />
                   </p>
-                  <span
-                    className={cn(
-                      "text-[12.5px] font-semibold",
-                      k.up ? "text-teal" : "text-accent",
-                    )}
-                  >
+                  <span className="text-[12.5px] font-medium tabular-nums text-muted">
                     {k.delta}
                   </span>
                 </div>
@@ -138,67 +157,75 @@ export function DashboardShowcase() {
   );
 }
 
+/** Barra horizontal simple. Reemplaza a la torta y se reusa en los dos paneles. */
+function Bar({
+  name,
+  pct,
+  highlight = false,
+}: {
+  name: string;
+  pct: number;
+  highlight?: boolean;
+}) {
+  return (
+    <div>
+      <div className="mb-1.5 flex justify-between text-[13px]">
+        <span className={cn("font-medium", highlight ? "text-ink" : "text-ink-soft")}>
+          {name}
+        </span>
+        <span className="tabular-nums text-muted">{pct}%</span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-hairline">
+        <div
+          className={cn("h-full rounded-full", highlight ? "bg-accent" : "bg-steel")}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
 function ResumenPanel() {
   return (
     <div className="grid grid-cols-1 gap-3.5 lg:grid-cols-[1.5fr_1fr]">
-      <div className="rounded-2xl border border-ink/8 bg-surface p-5">
+      <div className="rounded-card border border-hairline bg-surface p-5">
         <div className="mb-3.5 flex items-center justify-between">
           <p className="text-[14px] font-semibold text-ink">
             Tendencia de ingresos
           </p>
-          <span className="text-[12px] text-faint">Últimos 12 meses</span>
+          <span className="text-[12px] text-muted">Últimos 12 meses</span>
         </div>
+        {/* Sin grilla y sin relleno de área: sólo el eje base y la serie.
+            El punto rosa del final es la conclusión del panel. */}
         <svg viewBox="0 0 560 200" className="block h-auto w-full">
-          <defs>
-            <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#F98ACA" stopOpacity=".28" />
-              <stop offset="1" stopColor="#F98ACA" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <line x1="0" y1="50" x2="560" y2="50" stroke="#eef0f2" />
-          <line x1="0" y1="100" x2="560" y2="100" stroke="#eef0f2" />
-          <line x1="0" y1="150" x2="560" y2="150" stroke="#eef0f2" />
-          <path
-            d="M0,150 C40,140 70,120 110,124 C150,128 175,96 215,92 C255,88 280,110 320,96 C360,82 385,54 425,58 C465,62 500,40 560,26 L560,200 L0,200 Z"
-            fill="url(#areaFill)"
+          <line
+            x1="0"
+            y1="186"
+            x2="560"
+            y2="186"
+            className="stroke-steel"
+            strokeWidth="1"
           />
           <path
-            d="M0,150 C40,140 70,120 110,124 C150,128 175,96 215,92 C255,88 280,110 320,96 C360,82 385,54 425,58 C465,62 500,40 560,26"
+            d="M0,150 C40,140 70,120 110,124 C150,128 175,96 215,92 C255,88 280,110 320,96 C360,82 385,54 425,58 C465,62 500,40 552,26"
             fill="none"
-            stroke="#DB6E9C"
-            strokeWidth="2.6"
+            className="stroke-accent"
+            strokeWidth="2.4"
             strokeLinecap="round"
+            strokeLinejoin="round"
           />
-          <circle cx="560" cy="26" r="4.5" fill="#DB6E9C" />
-          <circle cx="560" cy="26" r="8" fill="#DB6E9C" opacity=".2" />
+          <circle cx="552" cy="26" r="4.5" className="fill-accent" />
         </svg>
       </div>
-      <div className="flex flex-col rounded-2xl border border-ink/8 bg-surface p-5">
-        <p className="mb-3 text-[14px] font-semibold text-ink">
+      <div className="flex flex-col rounded-card border border-hairline bg-surface p-5">
+        <p className="mb-4 text-[14px] font-semibold text-ink">
           Distribución por canal
         </p>
-        <div className="flex flex-1 items-center gap-4.5">
-          <svg viewBox="0 0 120 120" className="size-28 flex-none">
-            <circle cx="60" cy="60" r="46" fill="none" stroke="#eceef1" strokeWidth="16" />
-            <circle cx="60" cy="60" r="46" fill="none" stroke="#DB6E9C" strokeWidth="16" strokeDasharray="130 289" transform="rotate(-90 60 60)" strokeLinecap="round" />
-            <circle cx="60" cy="60" r="46" fill="none" stroke="#2ABC9C" strokeWidth="16" strokeDasharray="87 289" strokeDashoffset="-134" transform="rotate(-90 60 60)" strokeLinecap="round" />
-            <circle cx="60" cy="60" r="46" fill="none" stroke="#7D7F8A" strokeWidth="16" strokeDasharray="58 289" strokeDashoffset="-225" transform="rotate(-90 60 60)" strokeLinecap="round" />
-          </svg>
-          <div className="flex flex-col gap-2.5 text-[13px] text-ink-soft">
-            {[
-              ["Directo 45%", "#DB6E9C"],
-              ["Partners 30%", "#2ABC9C"],
-              ["Digital 25%", "#7D7F8A"],
-            ].map(([label, color]) => (
-              <span key={label} className="flex items-center gap-2">
-                <span
-                  className="size-2.5 rounded-[3px]"
-                  style={{ background: color }}
-                />
-                {label}
-              </span>
-            ))}
-          </div>
+        {/* Antes era un donut. Torta está en la lista negra del brief. */}
+        <div className="flex flex-1 flex-col justify-center gap-4">
+          {channels.map((c) => (
+            <Bar key={c.name} name={c.name} pct={c.pct} />
+          ))}
         </div>
       </div>
     </div>
@@ -206,26 +233,17 @@ function ResumenPanel() {
 }
 
 function VentasPanel() {
+  const top = Math.max(...regions.map((r) => r.pct));
+
   return (
-    <div className="rounded-2xl border border-ink/8 bg-surface p-5">
+    <div className="rounded-card border border-hairline bg-surface p-5">
       <div className="mb-4.5 flex items-center justify-between">
         <p className="text-[14px] font-semibold text-ink">Ventas por región</p>
-        <span className="text-[12px] text-faint">Trimestre actual</span>
+        <span className="text-[12px] text-muted">Trimestre actual</span>
       </div>
       <div className="flex flex-col gap-4">
         {regions.map((r) => (
-          <div key={r.name}>
-            <div className="mb-1.5 flex justify-between text-[13px]">
-              <span className="font-medium text-ink-soft">{r.name}</span>
-              <span className="text-faint">{r.pct}%</span>
-            </div>
-            <div className="h-2.5 overflow-hidden rounded-md bg-[#eceef1]">
-              <div
-                className="bg-brand-gradient h-full rounded-md"
-                style={{ width: `${r.pct}%` }}
-              />
-            </div>
-          </div>
+          <Bar key={r.name} name={r.name} pct={r.pct} highlight={r.pct === top} />
         ))}
       </div>
     </div>
@@ -234,8 +252,8 @@ function VentasPanel() {
 
 function CalidadPanel() {
   return (
-    <div className="overflow-hidden rounded-2xl border border-ink/8 bg-surface">
-      <div className="grid grid-cols-[2fr_1fr] gap-2 border-b border-ink/7 px-4.5 py-3.5 text-[12px] font-semibold tracking-[0.04em] text-faint sm:grid-cols-[2fr_1fr_1fr_1fr]">
+    <div className="overflow-hidden rounded-card border border-hairline bg-surface">
+      <div className="grid grid-cols-[2fr_1fr] gap-2 border-b border-hairline px-4.5 py-3.5 text-[11.5px] font-semibold tracking-[0.06em] text-muted sm:grid-cols-[2fr_1fr_1fr_1fr]">
         <span>FUENTE DE DATOS</span>
         <span className="hidden sm:block">REGISTROS</span>
         <span className="hidden sm:block">COMPLETITUD</span>
@@ -245,18 +263,23 @@ function CalidadPanel() {
         <div
           key={q.src}
           className={cn(
-            "grid grid-cols-[2fr_1fr] items-center gap-2 px-4.5 py-3.5 text-[13.5px] sm:grid-cols-[2fr_1fr_1fr_1fr]",
-            i < quality.length - 1 && "border-b border-ink/5",
+            "grid grid-cols-[2fr_1fr] items-center gap-2 px-4.5 py-3.5 text-[13.5px]",
+            "sm:grid-cols-[2fr_1fr_1fr_1fr]",
+            i < quality.length - 1 && "border-b border-hairline",
+            // la fila a revisar es la conclusión de la tabla
+            !q.ok && "bg-accent-light/8",
           )}
         >
           <span className="font-medium text-ink">{q.src}</span>
-          <span className="hidden text-muted sm:block">{q.rows}</span>
-          <span className="hidden text-muted sm:block">{q.comp}</span>
+          <span className="hidden tabular-nums text-muted sm:block">{q.rows}</span>
+          <span className="hidden tabular-nums text-muted sm:block">{q.comp}</span>
           <span>
             <span
               className={cn(
-                "inline-block rounded-full px-2.5 py-1 text-[12px] font-semibold",
-                q.ok ? "bg-teal/12 text-teal-dark" : "bg-accent-light/16 text-accent-dark",
+                "inline-block rounded-full border px-2.5 py-0.5 text-[12px] font-medium",
+                q.ok
+                  ? "border-teal/35 bg-teal/12 text-ink"
+                  : "border-accent/40 bg-accent-light/16 text-accent-dark",
               )}
             >
               {q.ok ? "Confiable" : "Revisar"}

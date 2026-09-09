@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Mail, Phone, MapPin, ArrowRight, Check } from "lucide-react";
 import { Container } from "../ui/Container";
-import { WaveDivider, WAVE } from "../ui/WaveDivider";
 import { contact } from "@/lib/content";
 
 const info = [
@@ -13,7 +12,7 @@ const info = [
 ];
 
 const inputClass =
-  "w-full rounded-xl border border-white/14 bg-white/6 px-4 py-3.5 text-[15px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-accent-light";
+  "w-full rounded-control border border-white/15 bg-white/5 px-4 py-3.5 text-[15px] text-white outline-none transition-colors placeholder:text-white/35 focus:border-accent-light focus-visible:ring-2 focus-visible:ring-accent-light/60";
 
 type Status = "idle" | "loading" | "error" | "success";
 
@@ -52,45 +51,39 @@ export function Contact() {
       id="contacto"
       className="relative overflow-hidden bg-[radial-gradient(ellipse_80%_60%_at_15%_20%,#33353d,#232429_70%)] py-[clamp(84px,10vw,130px)]"
     >
-      <WaveDivider
-        d={WAVE.top}
-        fill="#fbfbfd"
-        position="top"
-        className="z-[1] h-[clamp(48px,5.5vw,88px)]"
-      />
+      {/* Se fueron los dos glows radiales de 460 y 520px (uno rosa, uno con el
+          teal inventado #1e6b7a). Queda el degradado de fondo, que es
+          profundidad, más la retícula. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-24 left-[-60px] size-[460px] rounded-full bg-[radial-gradient(circle,rgba(219,110,156,0.28),transparent_62%)]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[-40px] top-[-40px] size-[520px] rounded-full bg-[radial-gradient(circle,rgba(30,107,122,0.34),transparent_66%)]"
+        className="brand-grid brand-grid--dark brand-grid--band pointer-events-none absolute inset-0"
       />
 
       <Container className="relative grid max-w-[1180px] items-center gap-14 lg:grid-cols-[1fr_1.05fr]">
         <div>
-          <p className="mb-3.5 text-[13px] font-semibold tracking-[0.15em] text-accent-light">
+          <p className="mb-3.5 text-[12.5px] font-semibold tracking-[0.16em] text-faint">
             HABLEMOS
           </p>
-          <h2 className="mb-5 text-[clamp(32px,4.4vw,50px)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
+          <h2 className="mb-5 text-[clamp(32px,4.4vw,50px)] font-semibold leading-[1.05] tracking-[-0.03em] text-white text-balance">
             ¿Tenés un proyecto en mente?
           </h2>
-          <p className="mb-8.5 max-w-[420px] text-[17px] leading-[1.6] text-[#b9bbc2]">
+          <p className="mb-9 max-w-[420px] text-[17px] leading-[1.6] text-[#b9bbc2]">
             Contanos qué problema querés resolver. Te respondemos con una
             propuesta clara, sin compromiso.
           </p>
           <div className="flex flex-col gap-4.5">
             {info.map(({ Icon, label, value, href }) => (
               <div key={label} className="flex items-center gap-3.5">
-                <span className="bg-brand-gradient flex size-11 flex-none items-center justify-center rounded-xl">
-                  <Icon className="size-5 text-white" strokeWidth={1.9} />
+                {/* tiles neutras: el rosa de esta sección es el botón de envío */}
+                <span className="flex size-11 flex-none items-center justify-center rounded-control border border-white/12 bg-white/6">
+                  <Icon className="size-5 text-white" strokeWidth={1.7} />
                 </span>
                 <div>
                   <p className="text-[12.5px] text-faint">{label}</p>
                   {href ? (
                     <a
                       href={href}
-                      className="text-[15.5px] font-semibold text-white transition-colors hover:text-accent-light"
+                      className="rounded-sm text-[15.5px] font-semibold text-white transition-colors hover:text-accent-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light"
                     >
                       {value}
                     </a>
@@ -103,13 +96,16 @@ export function Contact() {
           </div>
         </div>
 
-        <div className="relative rounded-3xl border border-white/12 bg-white/5 p-8.5 shadow-[0_30px_70px_rgba(0,0,0,0.3)] backdrop-blur-[14px]">
+        {/* Panel sólido con hairline. Antes: bg-white/5 + backdrop-blur-14px,
+            que sobre el degradado leía como glassmorphism — está en la lista
+            negra del brief. */}
+        <div className="relative rounded-panel border border-white/12 bg-ink-900/70 p-8 shadow-overlay sm:p-9">
           {status === "success" ? (
             <div className="flex min-h-[340px] flex-col items-center justify-center gap-5 py-10 text-center">
-              <span className="bg-brand-gradient flex size-16 items-center justify-center rounded-full shadow-[0_12px_30px_rgba(219,110,156,0.4)]">
-                <Check className="size-8 text-white" strokeWidth={2.4} />
+              <span className="flex size-14 items-center justify-center rounded-full bg-accent">
+                <Check className="size-7 text-white" strokeWidth={2.4} />
               </span>
-              <h3 className="text-[22px] font-bold text-white">
+              <h3 className="text-[22px] font-semibold text-white">
                 ¡Gracias por escribirnos!
               </h3>
               <p className="max-w-[300px] text-[15.5px] leading-[1.6] text-[#b9bbc2]">
@@ -148,7 +144,10 @@ export function Contact() {
               </div>
 
               {status === "error" && (
-                <p className="text-[14px] font-medium text-accent-light" role="alert">
+                <p
+                  className="text-[14px] font-medium text-accent-light"
+                  role="alert"
+                >
                   {error}
                 </p>
               )}
@@ -156,7 +155,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="bg-brand-gradient mt-1 inline-flex items-center justify-center gap-2.5 rounded-xl px-4 py-3.5 text-[16px] font-semibold text-white shadow-[0_12px_30px_rgba(219,110,156,0.4)] transition-transform duration-200 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70"
+                className="mt-1 inline-flex items-center justify-center gap-2.5 rounded-control bg-accent px-4 py-3.5 text-[16px] font-semibold text-white transition-[transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-accent-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
               >
                 {status === "loading" ? "Enviando…" : "Enviar mensaje"}
                 {status !== "loading" && (

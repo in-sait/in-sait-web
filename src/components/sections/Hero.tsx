@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Container } from "../ui/Container";
 import { Button } from "../ui/Button";
 import { Reveal } from "../ui/Reveal";
-import { WaveDivider, WAVE } from "../ui/WaveDivider";
 import { ScheduleButton } from "./ScheduleModal";
 
 const tags = [
@@ -16,27 +15,28 @@ export function Hero() {
   return (
     <header
       id="top"
-      className="relative overflow-hidden bg-[linear-gradient(180deg,#fbfbfd_0%,#ffffff_62%)] pb-[120px] pt-[170px]"
+      className="relative overflow-hidden border-b border-hairline bg-surface pb-[120px] pt-[170px]"
     >
-      <WaveDivider d={WAVE.a} fill="#fbfbfd" />
-      <div aria-hidden className="hero-dots pointer-events-none absolute inset-0" />
+      {/* Recurso 04 · retícula de precisión, enmascarada para no competir con el
+          texto. Reemplaza a los dos glows radiales rosados que había acá. */}
       <div
         aria-hidden
-        className="hero-glow pointer-events-none absolute right-[6%] top-[34%] size-[640px] rounded-full"
+        className="brand-grid brand-grid--bloom pointer-events-none absolute inset-0"
       />
 
       <Container className="relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <Reveal>
-            <div className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-accent-light/28 bg-accent-light/10 px-4 py-1.5">
-              <span className="size-[7px] rounded-full bg-accent-light shadow-[0_0_0_4px_rgba(249,138,202,0.2)]" />
+            {/* Pill rosa sobre claro: especificado así en el brief §04 (Hero). */}
+            <div className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-accent/25 bg-accent-light/10 px-4 py-1.5">
+              <span className="size-[6px] rounded-full bg-accent" />
               <span className="text-[12.5px] font-semibold tracking-[0.14em] text-accent-dark">
                 DATA INSIGHTS, ALWAYS ON.
               </span>
             </div>
           </Reveal>
           <Reveal delay={60}>
-            <h1 className="mb-5.5 text-balance text-[clamp(38px,5.4vw,64px)] font-bold leading-[1.04] tracking-[-0.03em] text-ink">
+            <h1 className="mb-5 text-balance text-[clamp(38px,5.4vw,64px)] font-semibold leading-[1.04] tracking-[-0.03em] text-ink">
               Sabé dónde ganás, dónde perdés{" "}
               <span className="text-brand-gradient">y por qué</span>.
             </h1>
@@ -57,34 +57,40 @@ export function Hero() {
             </div>
           </Reveal>
           <Reveal delay={300}>
-            <div className="mt-9 flex flex-wrap items-center gap-x-5.5 gap-y-2 text-[13.5px] font-medium text-faint">
+            <ul className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13.5px] font-medium text-muted">
               {tags.map((t, i) => (
-                <span key={t} className="flex items-center gap-x-5.5">
+                <li key={t} className="flex items-center gap-x-5">
                   {t}
                   {i < tags.length - 1 && (
-                    <span className="text-accent-light">·</span>
+                    <span aria-hidden className="text-steel">
+                      ·
+                    </span>
                   )}
-                </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </Reveal>
         </div>
 
+        {/* El isotipo queda QUIETO: es el núcleo. Lo que gira son las órbitas.
+            Antes rotaba la marca misma (46s) además de flotar, dentro de dos
+            anillos que también giraban y sobre un glow que pulsaba. Rotándolo,
+            quien entra a la página ve el isotipo en un ángulo arbitrario y
+            nunca en su orientación real.
+            ponytail: decisión pendiente de Rodrigo. Para volver a la versión
+            que rota, agregar `animate-spin-slow` al className del <Image>. */}
         <div className="relative hidden h-[520px] items-center justify-center lg:flex">
-          <div className="hero-glow absolute left-1/2 top-1/2 size-[460px] -translate-x-1/2 -translate-y-1/2 animate-pulse-glow rounded-full" />
-          <div className="absolute left-1/2 top-1/2 -ml-[215px] -mt-[215px] size-[430px] animate-spin-slow rounded-full border-[1.5px] border-dashed border-accent-light/32" />
-          <div className="absolute left-1/2 top-1/2 -ml-[165px] -mt-[165px] size-[330px] animate-spin-rev rounded-full border-[1.5px] border-dashed border-[#7d7f8a]/24" />
-          <div className="relative animate-floaty">
-            <Image
-              src="/assets/brand/insait-mark.svg"
-              alt="In-sait símbolo"
-              width={300}
-              height={300}
-              priority
-              unoptimized
-              className="w-[300px] animate-spin-slow drop-shadow-[0_30px_50px_rgba(43,45,51,0.2)]"
-            />
-          </div>
+          <div className="absolute left-1/2 top-1/2 -ml-[215px] -mt-[215px] size-[430px] animate-spin-slow rounded-full border border-dashed border-steel/70" />
+          <div className="absolute left-1/2 top-1/2 -ml-[165px] -mt-[165px] size-[330px] animate-spin-rev rounded-full border border-dashed border-steel/45" />
+          <Image
+            src="/assets/brand/insait-mark.svg"
+            alt="In-sait símbolo"
+            width={300}
+            height={300}
+            priority
+            unoptimized
+            className="relative w-[300px] drop-shadow-[0_24px_44px_rgba(43,45,51,0.14)]"
+          />
         </div>
       </Container>
     </header>

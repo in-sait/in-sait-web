@@ -24,7 +24,7 @@ export function Navbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-[100] border-b backdrop-blur-[14px] transition-[box-shadow] duration-300",
         scrolled
-          ? "border-[#2b2d3314] bg-[#ffffffd1] shadow-[0_8px_30px_rgba(43,45,51,0.06)]"
+          ? "border-hairline bg-surface/85 shadow-raise"
           : "border-transparent bg-transparent",
       )}
     >
@@ -47,7 +47,7 @@ export function Navbar() {
             <a
               key={l.label}
               href={l.href}
-              className="text-[15px] font-medium text-ink-soft transition-colors hover:text-ink"
+              className="rounded-sm text-[15px] font-medium text-ink-soft transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark focus-visible:ring-offset-4"
             >
               {l.label}
             </a>
@@ -63,7 +63,7 @@ export function Navbar() {
           onClick={() => setOpen((o) => !o)}
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={open}
-          className="inline-flex size-11 items-center justify-center rounded-xl text-ink transition-colors hover:bg-ink/5 lg:hidden"
+          className="inline-flex size-11 items-center justify-center rounded-control text-ink transition-colors hover:bg-ink/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark lg:hidden"
         >
           {open ? <X className="size-6" /> : <Menu className="size-6" />}
         </button>

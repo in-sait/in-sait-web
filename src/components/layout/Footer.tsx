@@ -38,7 +38,7 @@ export function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex size-10 items-center justify-center rounded-xl border border-white/10 bg-white/6 text-[#c9cbd1] transition-colors hover:bg-accent-light/16 hover:text-accent-light"
+                  className="flex size-10 items-center justify-center rounded-control border border-white/10 bg-white/6 text-[#c9cbd1] transition-colors hover:bg-white/12 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light"
                 >
                   <Icon className="size-[18px]" />
                 </a>
@@ -59,7 +59,7 @@ export function Footer() {
                   <a
                     key={l.label}
                     href={l.href}
-                    className="text-[14.5px] text-[#b9bbc2] transition-colors hover:text-accent-light"
+                    className="rounded-sm text-[14.5px] text-[#b9bbc2] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light"
                   >
                     {l.label}
                   </a>
@@ -75,13 +75,13 @@ export function Footer() {
             <div className="flex flex-col gap-2.5">
               <a
                 href="#faq"
-                className="text-[14.5px] text-[#b9bbc2] transition-colors hover:text-accent-light"
+                className="rounded-sm text-[14.5px] text-[#b9bbc2] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light"
               >
                 Preguntas frecuentes
               </a>
               <a
                 href="#contacto"
-                className="text-[14.5px] text-[#b9bbc2] transition-colors hover:text-accent-light"
+                className="rounded-sm text-[14.5px] text-[#b9bbc2] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-light"
               >
                 Contacto
               </a>

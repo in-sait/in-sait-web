@@ -1,19 +1,17 @@
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
-import { WaveDivider, WAVE } from "../ui/WaveDivider";
 import { cn } from "@/lib/cn";
 import { processSteps } from "@/lib/content";
 
 export function Process() {
-  const last = processSteps.length - 1;
+  const lastStep = processSteps[processSteps.length - 1].n;
 
   return (
     <section
       id="proceso"
-      className="relative bg-surface-soft py-[clamp(84px,10vw,128px)]"
+      className="relative border-b border-hairline bg-surface-soft py-[clamp(84px,10vw,128px)]"
     >
-      <WaveDivider d={WAVE.a} fill="#ffffff" />
       <Container>
         <SectionHeading
           eyebrow="CÓMO TRABAJAMOS"
@@ -23,20 +21,22 @@ export function Process() {
         />
 
         <Reveal className="relative">
-          {/* línea horizontal (solo desktop) */}
+          {/* línea horizontal (solo desktop) — hairline gris, no degradado rosa */}
           <div
             aria-hidden
-            className="absolute left-[10%] right-[10%] top-[26px] hidden h-[2px] bg-[linear-gradient(90deg,#E8E9EC,#F98ACA,#E8E9EC)] lg:block"
+            className="absolute left-[10%] right-[10%] top-[26px] hidden h-px bg-hairline lg:block"
           />
           <ol className="proc-grid relative">
             {processSteps.map((step) => (
               <li key={step.n} className="proc-step">
+                {/* El único rosa del proceso: el paso final, que es donde está
+                    la promesa (acompañar, no entregar y desaparecer). */}
                 <div
                   className={cn(
-                    "proc-badge flex size-[54px] items-center justify-center rounded-2xl text-[18px] font-bold",
-                    step.n === last + 1
-                      ? "bg-brand-gradient text-white shadow-[0_10px_22px_rgba(219,110,156,0.35)]"
-                      : "border border-ink/10 bg-surface text-accent shadow-[0_6px_16px_rgba(43,45,51,0.06)]",
+                    "proc-badge flex size-[54px] items-center justify-center rounded-card text-[18px] font-semibold tabular-nums",
+                    step.n === lastStep
+                      ? "bg-accent text-white"
+                      : "border border-hairline bg-surface text-ink shadow-raise",
                   )}
                 >
                   {step.n}

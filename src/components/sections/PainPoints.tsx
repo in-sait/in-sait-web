@@ -1,13 +1,19 @@
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
-import { WaveDivider, WAVE } from "../ui/WaveDivider";
+import { cn } from "@/lib/cn";
 import { painPoints } from "@/lib/content";
+
+/* Antes: seis tarjetas idénticas, cada una con una comilla rosa de 40px.
+   Seis rosas decorativos en una sola composición.
+   Ahora: el tratamiento de cita del brief (regla vertical hairline + frase en
+   tinta), y la regla rosa marca la única frase que la marca responde de frente
+   — "no sabemos cuál dato es el correcto" es literalmente el valor 01,
+   "Un solo número". */
 
 export function PainPoints() {
   return (
-    <section className="relative py-[clamp(84px,10vw,128px)]">
-      <WaveDivider d={WAVE.a} fill="#fbfbfd" />
+    <section className="relative border-b border-hairline py-[clamp(84px,10vw,128px)]">
       <Container>
         <SectionHeading
           eyebrow="PROBLEMAS QUE RESOLVEMOS"
@@ -15,17 +21,19 @@ export function PainPoints() {
           subtitle="Frases reales de equipos antes de trabajar con nosotros. Probablemente reconozcas alguna."
           className="mb-14 max-w-[640px]"
         />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-x-12 gap-y-10 sm:grid-cols-2">
           {painPoints.map((q, i) => (
-            <Reveal key={q} delay={(i % 3) * 80}>
-              <div className="h-full rounded-[18px] border border-ink/8 bg-surface-soft p-7.5">
-                <span className="text-[40px] font-bold leading-none text-accent-light">
-                  &ldquo;
-                </span>
-                <p className="mt-2 text-[18px] font-semibold leading-[1.45] text-ink">
+            <Reveal key={q} delay={(i % 2) * 80}>
+              <blockquote
+                className={cn(
+                  "h-full border-l-2 pl-5",
+                  i === 0 ? "border-accent" : "border-steel",
+                )}
+              >
+                <p className="text-[21px] font-medium leading-[1.34] tracking-[-0.02em] text-ink text-balance">
                   {q}
                 </p>
-              </div>
+              </blockquote>
             </Reveal>
           ))}
         </div>

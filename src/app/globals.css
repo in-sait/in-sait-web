@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-/* In-sait design tokens — source of truth: Diseño Final mockup */
+/* In-sait design tokens — source of truth: Manual de Identidad v3.0 + Brief de
+   evolución de marca v1.1 (9 sep 2026). No se inventan colores: cada valor de
+   abajo sale de uno de esos dos documentos. */
 @theme {
   --color-surface: #ffffff;
   --color-surface-soft: #fbfbfd;
@@ -10,21 +12,34 @@
   --color-ink-900: #232429; /* darkest surface (footer) */
   --color-ink-800: #33353d;
 
-  --color-muted: #6b6e78;
-  --color-faint: #9a9ca4;
+  --color-muted: #6b6e78; /* AA sobre blanco (5.09) — gris de texto chico */
+  --color-faint: #9a9ca4; /* 2.74 sobre blanco: SOLO decorativo o sobre oscuro */
   --color-hairline: #e8e9ec;
+  --color-steel: #cad0d3; /* hairline de dibujo (ejes, retícula, grafo) */
 
-  --color-accent: #db6e9c; /* pink */
-  --color-accent-light: #f98aca;
-  --color-accent-dark: #b6547c;
+  --color-accent: #db6e9c; /* rosa — 3.12 sobre blanco: superficies, no texto */
+  --color-accent-light: #f98aca; /* rosa claro — AA sobre ink (6.24) */
+  --color-accent-dark: #b6547c; /* rosa texto — AA sobre blanco (4.62) */
 
-  --color-teal: #2abc9c; /* positive / support */
-  --color-teal-dark: #1e6b7a;
+  --color-teal: #2abc9c; /* apoyo — washes y bordes, nunca texto sobre blanco */
+  --color-teal-ink: #1f8f77; /* teal del brief v3.1; reemplaza al inventado #1e6b7a */
 
   --font-sans:
     var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
   --ease-brand: cubic-bezier(0.16, 0.84, 0.44, 1);
+
+  /* Tres radios. Antes había once. */
+  --radius-control: 10px; /* inputs, botones, chips, pills cuadradas */
+  --radius-card: 16px; /* tarjetas de contenido */
+  --radius-panel: 24px; /* superficies grandes: dashboard, modal, formulario */
+
+  /* Cuatro sombras, todas neutras. Antes había trece, siete de ellas glows
+     rosados debajo de los botones — el efecto más "app de consumo" del sitio. */
+  --shadow-raise: 0 1px 2px rgba(43, 45, 51, 0.05);
+  --shadow-card: 0 14px 30px -20px rgba(43, 45, 51, 0.3);
+  --shadow-panel: 0 34px 68px -34px rgba(43, 45, 51, 0.34);
+  --shadow-overlay: 0 40px 80px -28px rgba(20, 21, 25, 0.5);
 }
 
 html {
@@ -55,27 +70,9 @@ body {
   color: transparent;
 }
 
-/* Hero ambient animation — CSS only, respects reduced motion */
-@keyframes floaty {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-16px);
-  }
-}
-@keyframes pulseGlow {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    opacity: 0.95;
-    transform: translate(-50%, -50%) scale(1.08);
-  }
-}
+/* Órbitas del hero. Los anillos giran alrededor de la marca; la marca NO gira
+   —el isotipo es un núcleo quieto entre tres cosas que orbitan, y esa es la
+   idea que el brief pide conservar. */
 @keyframes spinSlow {
   to {
     transform: rotate(360deg);
@@ -87,42 +84,51 @@ body {
   }
 }
 
-.animate-floaty {
-  animation: floaty 7s ease-in-out infinite;
-}
-.animate-pulse-glow {
-  animation: pulseGlow 6s ease-in-out infinite;
-}
 .animate-spin-slow {
-  animation: spinSlow 46s linear infinite;
+  animation: spinSlow 60s linear infinite;
 }
 .animate-spin-rev {
-  animation: spinRev 34s linear infinite;
+  animation: spinRev 44s linear infinite;
 }
 
-/* Hero decorativo (gradientes/máscaras complejas → clase en vez de inline) */
-.hero-dots {
-  background-image: radial-gradient(rgba(43, 45, 51, 0.045) 1px, transparent 1px);
-  background-size: 34px 34px;
-  -webkit-mask-image: radial-gradient(
-    ellipse 70% 60% at 50% 30%,
-    #000,
-    transparent 75%
-  );
-  mask-image: radial-gradient(
-    ellipse 70% 60% at 50% 30%,
-    #000,
-    transparent 75%
-  );
+/* ─────────────────────────────────────────────────────────────────────────
+   Recurso 04 del brief · Retícula de precisión.
+   "Grilla de puntos de 21–28 px y hairlines de 0.5–1 px en gris niebla,
+   siempre con máscara de degradado para que se desvanezca y nunca compita
+   con el texto." Es el papel milimetrado de la marca y reemplaza a los glows
+   radiales rosados que había antes (no derivaban del isotipo).
+   Vive en: todos los fondos.
+   ───────────────────────────────────────────────────────────────────────── */
+.brand-grid {
+  background-image: radial-gradient(rgba(43, 45, 51, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
-.hero-glow {
-  background: radial-gradient(
-    circle,
-    rgba(249, 138, 202, 0.3),
-    rgba(249, 138, 202, 0.06) 45%,
-    transparent 70%
+.brand-grid--dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+}
+/* máscara elíptica: para el hero, donde la retícula rodea al isotipo */
+.brand-grid--bloom {
+  -webkit-mask-image: radial-gradient(
+    ellipse 65% 60% at 50% 34%,
+    #000,
+    transparent 74%
   );
-  filter: blur(6px);
+  mask-image: radial-gradient(ellipse 65% 60% at 50% 34%, #000, transparent 74%);
+}
+/* máscara vertical: para bandas de sección, se desvanece antes del texto */
+.brand-grid--band {
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    #000,
+    rgba(0, 0, 0, 0.35) 42%,
+    transparent 78%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    #000,
+    rgba(0, 0, 0, 0.35) 42%,
+    transparent 78%
+  );
 }
 
 /* Timeline del proceso: vertical con línea en mobile, horizontal en desktop.
@@ -164,8 +170,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-floaty,
-  .animate-pulse-glow,
   .animate-spin-slow,
   .animate-spin-rev {
     animation: none;

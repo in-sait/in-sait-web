@@ -118,11 +118,13 @@ export type Metric = {
   prefix?: string;
   suffix?: string;
   label: string;
+  /** La única cifra en rosa del bloque: la que resume el caso (brief §02, Recurso 06). */
+  highlight?: boolean;
 };
 
 export const metrics: Metric[] = [
   { value: 40, prefix: "+", suffix: "%", label: "Más velocidad de reporting" },
-  { value: 95, suffix: "%", label: "Calidad de datos objetivo" },
+  { value: 95, suffix: "%", label: "Calidad de datos objetivo", highlight: true },
   { value: 60, prefix: "−", suffix: "%", label: "Menos trabajo manual" },
   { value: "24/7", label: "Monitoreo automatizado" },
 ];
