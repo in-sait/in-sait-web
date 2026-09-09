@@ -7,7 +7,7 @@ export function Enfoque() {
   return (
     <section
       id="enfoque"
-      className="relative border-b border-hairline bg-surface-soft py-[clamp(84px,10vw,128px)]"
+      className="relative border-b border-hairline bg-surface-soft py-[clamp(96px,11vw,152px)]"
     >
       <Container className="grid items-start gap-14 lg:grid-cols-[0.9fr_1.1fr]">
         <Reveal className="lg:sticky lg:top-[110px]">

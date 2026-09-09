@@ -2,7 +2,13 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 
-/** Fade + slide-up al entrar en viewport (una vez). Replica data-reveal del mockup. */
+/**
+ * Fade + slide-up al entrar en viewport (una vez).
+ * El recorrido es más largo y más lento que antes (34px / 0.85s contra 26px /
+ * 0.7s) para que el elemento tenga peso al llegar, y dispara antes —con el 15%
+ * visible y sin margen negativo— para que scrolleando rápido no se vea una
+ * sección en blanco.
+ */
 export function Reveal({
   children,
   delay = 0,
@@ -20,10 +26,14 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 26 }}
+      initial={{ opacity: 0, y: 34 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12, margin: "0px 0px -6% 0px" }}
-      transition={{ duration: 0.7, ease: [0.16, 0.84, 0.44, 1], delay: delay / 1000 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{
+        duration: 0.85,
+        ease: [0.16, 0.84, 0.44, 1],
+        delay: delay / 1000,
+      }}
     >
       {children}
     </motion.div>

@@ -5,7 +5,7 @@ type Variant = "primary" | "secondary";
 type Size = "md" | "sm";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-control font-semibold transition-[transform,box-shadow,background-color,border-color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark focus-visible:ring-offset-2";
+  "group inline-flex items-center justify-center gap-2 rounded-control font-semibold transition-[transform,box-shadow,background-color,border-color] duration-300 ease-brand active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-dark focus-visible:ring-offset-2";
 
 const sizes: Record<Size, string> = {
   md: "px-6 py-3.5 text-base",
@@ -58,7 +58,12 @@ export function Button({
   return (
     <a href={href} className={buttonStyles({ variant, size, className })}>
       {children}
-      {withArrow && <ArrowRight className="size-[17px]" strokeWidth={2.2} />}
+      {withArrow && (
+        <ArrowRight
+          className="size-[17px] transition-transform duration-300 ease-brand group-hover:translate-x-0.5"
+          strokeWidth={2.2}
+        />
+      )}
     </a>
   );
 }

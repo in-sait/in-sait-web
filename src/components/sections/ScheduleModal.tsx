@@ -58,7 +58,10 @@ export function ScheduleButton({
         className={buttonStyles({ size, className })}
       >
         {children}
-        <ArrowRight className="size-[17px]" strokeWidth={2.2} />
+        <ArrowRight
+          className="size-[17px] transition-transform duration-300 ease-brand group-hover:translate-x-0.5"
+          strokeWidth={2.2}
+        />
       </button>
       {open && <ScheduleModal onClose={close} />}
     </>

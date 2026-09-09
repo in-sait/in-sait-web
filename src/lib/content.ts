@@ -129,15 +129,19 @@ export const metrics: Metric[] = [
   { value: "24/7", label: "Monitoreo automatizado" },
 ];
 
+/* Stack de datos, no de desarrollo de aplicaciones.
+   Salieron React, TypeScript, Node.js, FastAPI y Flutter: son el stack de
+   software a medida, que con el pivote pasó al alcance de Zulpik. Publicarlas
+   como stack propio contradecía la frase de la alianza tres secciones más
+   arriba. Entraron las herramientas del trabajo real de BI. */
 export const technologies = [
   "Power BI",
+  "Qlik",
+  "DAX",
+  "Power Query",
+  "SQL",
   "Python",
   "PostgreSQL",
-  "React",
-  "TypeScript",
-  "Node.js",
-  "FastAPI",
-  "Flutter",
   "Docker",
   "Git",
 ];

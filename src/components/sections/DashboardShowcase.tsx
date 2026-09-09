@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Home, BarChart3, Clock, Database, Settings } from "lucide-react";
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "../ui/Container";
 import { Reveal } from "../ui/Reveal";
 import { SectionHeading } from "../ui/SectionHeading";
@@ -19,7 +20,13 @@ import { cn } from "@/lib/cn";
        reemplazan por barra horizontal simple o por la cifra sola
    El donut de "Distribución por canal" era una torta: está reemplazado por
    barras horizontales.
+
+   El movimiento de esta sección no es decorativo: la serie SE DIBUJA y las
+   barras CRECEN desde cero. Es la única sección donde el dato se construye
+   delante tuyo, que es exactamente lo que In-sait vende.
    ─────────────────────────────────────────────────────────────────────────── */
+
+const EASE = [0.16, 0.84, 0.44, 1] as const;
 
 type Tab = "resumen" | "ventas" | "calidad";
 
@@ -58,7 +65,7 @@ export function DashboardShowcase() {
   return (
     <section
       id="dashboard"
-      className="relative overflow-hidden border-b border-hairline py-[clamp(84px,10vw,128px)]"
+      className="relative overflow-hidden border-b border-hairline py-[clamp(96px,11vw,152px)]"
     >
       <div
         aria-hidden
@@ -69,7 +76,7 @@ export function DashboardShowcase() {
           eyebrow="NUESTRO TRABAJO"
           title="Insights que generan impacto"
           subtitle="Ejemplo de una plataforma de BI: KPIs en vivo, análisis y control de calidad de datos en una sola vista."
-          className="mb-13 max-w-[660px]"
+          className="mb-14 max-w-[660px]"
         />
 
         <Reveal className="grid grid-cols-1 overflow-hidden rounded-panel border border-hairline bg-surface shadow-panel lg:grid-cols-[78px_1fr]">
@@ -115,11 +122,20 @@ export function DashboardShowcase() {
                     onClick={() => setTab(t)}
                     aria-pressed={tab === t}
                     className={cn(
-                      "rounded-[7px] px-4 py-2 text-[13.5px] font-medium capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-1",
-                      tab === t ? "bg-ink text-white" : "text-muted hover:text-ink",
+                      "relative rounded-[7px] px-4 py-2 text-[13.5px] font-medium capitalize transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-1",
+                      tab === t ? "text-white" : "text-muted hover:text-ink",
                     )}
                   >
-                    {t}
+                    {/* la pastilla activa se desliza entre pestañas */}
+                    {tab === t && (
+                      <motion.span
+                        layoutId="dash-tab"
+                        aria-hidden
+                        className="absolute inset-0 rounded-[7px] bg-ink"
+                        transition={{ duration: 0.35, ease: EASE }}
+                      />
+                    )}
+                    <span className="relative">{t}</span>
                   </button>
                 ))}
               </div>
@@ -162,11 +178,15 @@ function Bar({
   name,
   pct,
   highlight = false,
+  index = 0,
 }: {
   name: string;
   pct: number;
   highlight?: boolean;
+  index?: number;
 }) {
+  const reduce = useReducedMotion();
+
   return (
     <div>
       <div className="mb-1.5 flex justify-between text-[13px]">
@@ -176,9 +196,16 @@ function Bar({
         <span className="tabular-nums text-muted">{pct}%</span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-hairline">
-        <div
-          className={cn("h-full rounded-full", highlight ? "bg-accent" : "bg-steel")}
+        <motion.div
+          className={cn(
+            "h-full origin-left rounded-full",
+            highlight ? "bg-accent" : "bg-steel",
+          )}
           style={{ width: `${pct}%` }}
+          initial={reduce ? undefined : { scaleX: 0 }}
+          whileInView={reduce ? undefined : { scaleX: 1 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.1 + index * 0.09 }}
         />
       </div>
     </div>
@@ -186,6 +213,8 @@ function Bar({
 }
 
 function ResumenPanel() {
+  const reduce = useReducedMotion();
+
   return (
     <div className="grid grid-cols-1 gap-3.5 lg:grid-cols-[1.5fr_1fr]">
       <div className="rounded-card border border-hairline bg-surface p-5">
@@ -206,15 +235,29 @@ function ResumenPanel() {
             className="stroke-steel"
             strokeWidth="1"
           />
-          <path
+          <motion.path
             d="M0,150 C40,140 70,120 110,124 C150,128 175,96 215,92 C255,88 280,110 320,96 C360,82 385,54 425,58 C465,62 500,40 552,26"
             fill="none"
             className="stroke-accent"
             strokeWidth="2.4"
             strokeLinecap="round"
             strokeLinejoin="round"
+            initial={reduce ? undefined : { pathLength: 0 }}
+            whileInView={reduce ? undefined : { pathLength: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 1.5, ease: EASE }}
           />
-          <circle cx="552" cy="26" r="4.5" className="fill-accent" />
+          <motion.circle
+            cx="552"
+            cy="26"
+            r="4.5"
+            className="fill-accent"
+            initial={reduce ? undefined : { scale: 0, opacity: 0 }}
+            whileInView={reduce ? undefined : { scale: 1, opacity: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.45, ease: EASE, delay: 1.35 }}
+            style={{ transformOrigin: "552px 26px" }}
+          />
         </svg>
       </div>
       <div className="flex flex-col rounded-card border border-hairline bg-surface p-5">
@@ -223,8 +266,8 @@ function ResumenPanel() {
         </p>
         {/* Antes era un donut. Torta está en la lista negra del brief. */}
         <div className="flex flex-1 flex-col justify-center gap-4">
-          {channels.map((c) => (
-            <Bar key={c.name} name={c.name} pct={c.pct} />
+          {channels.map((c, i) => (
+            <Bar key={c.name} name={c.name} pct={c.pct} index={i} />
           ))}
         </div>
       </div>
@@ -242,8 +285,14 @@ function VentasPanel() {
         <span className="text-[12px] text-muted">Trimestre actual</span>
       </div>
       <div className="flex flex-col gap-4">
-        {regions.map((r) => (
-          <Bar key={r.name} name={r.name} pct={r.pct} highlight={r.pct === top} />
+        {regions.map((r, i) => (
+          <Bar
+            key={r.name}
+            name={r.name}
+            pct={r.pct}
+            index={i}
+            highlight={r.pct === top}
+          />
         ))}
       </div>
     </div>
@@ -260,8 +309,12 @@ function CalidadPanel() {
         <span>ESTADO</span>
       </div>
       {quality.map((q, i) => (
-        <div
+        <motion.div
           key={q.src}
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.45, ease: EASE, delay: i * 0.08 }}
           className={cn(
             "grid grid-cols-[2fr_1fr] items-center gap-2 px-4.5 py-3.5 text-[13.5px]",
             "sm:grid-cols-[2fr_1fr_1fr_1fr]",
@@ -285,7 +338,7 @@ function CalidadPanel() {
               {q.ok ? "Confiable" : "Revisar"}
             </span>
           </span>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

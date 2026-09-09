@@ -12,7 +12,7 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="relative border-b border-hairline bg-surface-soft py-[clamp(84px,10vw,128px)]"
+      className="relative border-b border-hairline bg-surface-soft py-[clamp(96px,11vw,152px)]"
     >
       <Container className="max-w-[820px]">
         <div className="mb-12 text-center">

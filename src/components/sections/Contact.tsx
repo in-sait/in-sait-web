@@ -49,7 +49,7 @@ export function Contact() {
   return (
     <section
       id="contacto"
-      className="relative overflow-hidden bg-[radial-gradient(ellipse_80%_60%_at_15%_20%,#33353d,#232429_70%)] py-[clamp(84px,10vw,130px)]"
+      className="relative overflow-hidden bg-[radial-gradient(ellipse_80%_60%_at_15%_20%,#33353d,#232429_70%)] py-[clamp(96px,11vw,152px)]"
     >
       {/* Se fueron los dos glows radiales de 460 y 520px (uno rosa, uno con el
           teal inventado #1e6b7a). Queda el degradado de fondo, que es
