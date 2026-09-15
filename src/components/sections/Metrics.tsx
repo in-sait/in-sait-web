@@ -14,7 +14,7 @@ import { metrics } from "@/lib/content";
 
 export function Metrics() {
   return (
-    <section className="relative border-b border-hairline py-[clamp(96px,11vw,152px)]">
+    <section className="relative py-[clamp(96px,11vw,152px)]">
       <Container>
         <SectionHeading
           eyebrow="EL IMPACTO QUE BUSCAMOS"

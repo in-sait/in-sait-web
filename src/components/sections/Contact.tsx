@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Mail, Phone, MapPin, ArrowRight, Check } from "lucide-react";
 import { Container } from "../ui/Container";
+import { WaveDivider } from "../ui/WaveDivider";
 import { contact } from "@/lib/content";
 
 const info = [
@@ -51,6 +52,7 @@ export function Contact() {
       id="contacto"
       className="relative overflow-hidden bg-[radial-gradient(ellipse_80%_60%_at_15%_20%,#33353d,#232429_70%)] py-[clamp(96px,11vw,152px)]"
     >
+      <WaveDivider />
       {/* Se fueron los dos glows radiales de 460 y 520px (uno rosa, uno con el
           teal inventado #1e6b7a). Queda el degradado de fondo, que es
           profundidad, más la retícula. */}

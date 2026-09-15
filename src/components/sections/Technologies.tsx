@@ -1,4 +1,5 @@
 import { Container } from "../ui/Container";
+import { WaveDivider } from "../ui/WaveDivider";
 import { Badge } from "../ui/Badge";
 import { Reveal } from "../ui/Reveal";
 import { technologies } from "@/lib/content";
@@ -6,6 +7,7 @@ import { technologies } from "@/lib/content";
 export function Technologies() {
   return (
     <section className="relative overflow-hidden bg-ink py-[clamp(96px,11vw,144px)]">
+      <WaveDivider fill="var(--color-surface)" />
       {/* Retícula en negativo. Antes había dos glows radiales de 420px, uno rosa
           y uno teal, en esquinas opuestas: dos acentos compitiendo y ningún
           recurso derivado del isotipo. */}
