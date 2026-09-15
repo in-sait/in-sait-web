@@ -1,0 +1,8 @@
+/* TEAM */
+Developer: Rodrigo Garcia
+Site: https://insait.com.ar
+
+/* SITE */
+Last update: 2026-09-15
+Standards: HTML5, CSS3
+Software: Next.js
